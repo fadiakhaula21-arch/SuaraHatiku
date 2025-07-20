@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Untuk Kamu 💖</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #ffe6e6;
+      overflow: hidden;
+    }
+
+    #opening {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: pink;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 999;
+    }
+
+    #opening button {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #main-content {
+      display: none;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .card {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      max-width: 90vw;
+      z-index: 2;
+      position: relative;
+    }
+
+    .slider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .slide-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 90vw;
+    }
+
+    .slider img {
+      max-width: 90vw;
+      max-height: 60vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      transition: opacity 0.4s ease;
+    }
+
+    #caption {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #cc0066;
+      text-align: center;
+      font-style: italic;
+      max-width: 90vw;
+    }
+
+    .nav {
+      background-color: transparent;
+      border: none;
+      font-size: 32px;
+      cursor: pointer;
+      color: #ff4d4d;
+      user-select: none;
+    }
+
+    .nav:hover {
+      color: #e60000;
+    }
+
+    .heart {
+      width: 15px;
+      height: 15px;
+      position: fixed;
+      background: red;
+      transform: rotate(45deg);
+      animation: fall 4s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 15px;
+      height: 15px;
+      position: absolute;
+      background: red;
+      border-radius: 50%;
+    }
+
+    .heart::before { top: -7.5px; left: 0; }
+    .heart::after { left: -7.5px; top: 0; }
+
+    @keyframes fall {
+      0% { top: -10px; opacity: 1; }
+      100% { top: 100vh; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Halaman Pembuka -->
+  <div id="opening">
+    <h1>💌 Hai Kamu!</h1>
+    <p>lihat ini yaaa, bukan apa apa....</p>
+    <button onclick="startSurprise()">Buka yuk 💖</button>
+  </div>
+
+  <!-- Konten Utama -->
+  <div id="main-content">
+    <div class="card">
+      <h2>Untuk Cinta Terhebatku 😘</h2>
+      <p>Aku sayang kamu. Tidak ada yang istimewa di hidupku tanpa kamu! 💕</p>
+      <button class="reveal" onclick="showMessage()">Klik di sini 💌</button>
+      <div id="secret" style="display: none;">
+        <p>Terima kasih sudah selalu ada untukku, mendukungku, memberi semangat.</p>
+        <p>🎁 (Psst... ini hadiah kecil dariku 😉)</p>
+        <div class="slider">
+          <button class="nav" onclick="prevSlide()">❮</button>
+          <div class="slide-container">
+            <img id="slider-img" src="syg.jpg" alt="Foto kenangan" />
+            <p id="caption">maaf tak pernah memberi sesuatu yang istimewa</p>
+          </div>
+          <button class="nav" onclick="nextSlide()">❯</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="bg-music" autoplay loop>
+    <source src="kita.mp3" type="audio/mpeg">
+    Browser kamu tidak mendukung audio.
+  </audio>
+
+  <script>
+    let currentSlide = 0;
+    const images = ['syg.jpg', 'kamu.jpg', 'cinta.jpg', 'cute.jpg', 'foto1.jpg', 'foto2.jpg', 'foto3.jpg', 'foto4.jpg', 'foto5.jpg', 'foto6.jpg', 'foto7.jpg', 'foto8.jpg', 'foto9.jpg', 'foto10.jpg', 'foto11.jpg', 'foto12.jpg', 'foto13.jpg', 'foto14.jpg', 'foto15.jpg', 'foto16.jpg', 'foto17.jpg', 'foto18.jpg', 'foto19.jpg', 'foto20.jpg', 'foto21.jpg', 'foto22.jpg', 'foto23.jpg']; // ganti sesuai nama file
+    const captions = [
+    'ingat ngga Pertama kali kita ketemu 😄',
+    'foto dikelas ☕',
+    'Senja aenurrofiq🌇',
+    'Kamu keliatan ragu banget 😆',
+    'Waktu hujan dan kita boncengan ☔',
+    'Main hujan bareng pas kamu ultah 🏖',
+    'Momen ulang tahun kamu 🎂',
+    'Lagi sok candid di mall 😎',
+    'jalan bareng pertama kali 🍿',
+    'Makan bakso  😋',
+    'Kita pakai baju senada 🥰',
+    'jalan jalan malam di Malioboro 🚶‍♀🚶‍♂',
+    'Waktu naik motor 🚲',
+    'Makan mie instan tengah malam walau beda tempat 😅',
+    'Ngambek-ngambekan tapi lucu 😤❤',
+    'makasih selalu bikin aku tersenyum 😆',
+    'Main bareng  🐱',
+    'Waktu LDR Sepanjang ini 🎓',
+    'club favorit kamu 🌅',
+    'band yang kamu suka 🤗',
+    'Main game bikin aku marah 🎮',
+    'Waktu ngopi bareng ☕',
+    'Pas kamu nyanyi buat aku 🎤❤',
+    'Waktu kita telfonan 🎶',
+    'Foto foto yang kamu kirim aku suka 😍',
+    'semuanya berarti bangett buat aku 🎈',
+    'ini Foto terakhir, tapi bukan akhir dari kita💞'
+  ];
+
+    const sliderImg = document.getElementById("slider-img");
+    const caption = document.getElementById("caption");
+
+    function startSurprise() {
+      document.getElementById('opening').style.display = 'none';
+      document.getElementById('main-content').style.display = 'flex';
+      startHearts();
+      document.getElementById("bg-music").play();
+      caption.innerText = captions[0];
+    }
+
+    function showMessage() 
+      document.getElementById('secret').style.display = 'block';
+    }
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.style.left = random(0, window.innerWidth) + "px";
+      heart.style.animationDuration = random(3, 6) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    function startHearts() {
+      setInterval(createHeart, 300);
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % images.length;
+      sliderImg.src = images[currentSlide];
+      caption.innerText = captions[currentSlide];
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + images.length) % images.length;
+      sliderImg.src = images[currentSlide];
+      caption.innerText = captions[currentSlide];
+    }
+  </script>
+
+</body>
+</html>
